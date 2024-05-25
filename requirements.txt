@@ -1,9 +1,7 @@
 viktor==14.7.0
 #./local-wheels/GDAL-3.8.2-cp310-cp310-win_amd64.whl; platform_system == "Windows"
 ./local-wheels/ra2ce-0.7.0_no_cache.zip
-#./local-wheels/ra2ce-0.7.0.zip
 plotly==5.3.1
 mapclassify==2.4.3
 branca
 folium
-

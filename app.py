@@ -1,27 +1,19 @@
 import configparser
 import os
-from io import StringIO
 from pathlib import Path
 
 import geopandas
 from munch import Munch
 from ra2ce.ra2ce_handler import Ra2ceHandler
 from shapely import Polygon
-from viktor import ViktorController, UserError, Color, progress_message
-from viktor.parametrization import ViktorParametrization, OptionField
+from viktor import ViktorController, UserError, progress_message
 from viktor.utils import memoize
-from viktor.views import PlotlyView, PlotlyResult, WebResult, WebView, MapResult, MapLegend, MapPoint, MapPolygon, \
-    MapView
+from viktor.views import WebResult, WebView, MapResult, MapLegend, MapPolygon, MapView
 import geopandas as gpd
-import plotly.express as px
+import osmnx
 
-from oldfolder.overview.parametrization import Parametrization
+from parametrization import Parametrization
 
-
-# from oldfolder.overview.controller import Controller
-# class Parametrization(ViktorParametrization):
-#     _options = ["The Netherlands", "Continents", "Global"]
-#     graph = OptionField("Life expectancy:", options=_options, default="Continents", variant="radio", flex=100)
 
 
 class Controller(ViktorController):
@@ -50,9 +42,12 @@ class Controller(ViktorController):
         return MapResult(features, legend=legend)
 
     @staticmethod
-    # @memoize
+    @memoize
     def run_network(road_type: list[str], poly_coords: list[list[float]], root_dir: str):
+        """
+        Run t
 
+        """
 
         root_dir = Path(root_dir)
         output_directories = [
@@ -70,8 +65,6 @@ class Controller(ViktorController):
 
         # modify network.ini
         modify_network_ini(network_ini, road_type)
-        import osmnx
-        #osmnx.utils.config(use_cache=False)
         osmnx.utils.config(cache_folder=Path(__file__).parent / "osmnx_cache")
 
         try:
@@ -88,17 +81,23 @@ class Controller(ViktorController):
 
     @WebView("Criticality analysis results", duration_guess=4)
     def single_link_redundancy_map(self, params: Munch, **kwargs):
+        """
+        Callback to run a single link redundancy analysis and display the results on a map.
+        """
 
-
+        # 1. Get the root working directory for SLR
         root_dir = self.get_working_dir('single_link_redundancy')
 
+        # 2. Get the selected road types and polygon coordinates
         poly = params.page_criticality_analysis.tab.network.selection_polygon
         poly_coord = []
         for p in poly.points:
             poly_coord.append([p.lon, p.lat])
 
+        # 3. Run the network analysis if input have changed (memoized)
         self.run_network(params.page_criticality_analysis.tab.network.roadtype_select, poly_coord, str(root_dir))
 
+        # 4. Post-process the results and display on the map
         analysis_output_folder = root_dir / "output" / "single_link_redundancy"  # specify path to output folder
         redundancy_gdf = gpd.read_file(analysis_output_folder / "beira_redundancy.gpkg")
 
@@ -119,15 +118,7 @@ class Controller(ViktorController):
             raise UserError("Invalid result type")
         path_save = Path(__file__).parent / "working_directory/single_link_redun" / "map_result.html"
         res_map.save(path_save)
-        # fig_json = res_map.to_json()
 
-        #convert json into stringio
-
-
-        # string_io = StringIO()
-        # string_io.write(fig_json)
-
-        # return WebResult(html=string_io)
         return WebResult.from_path(path_save)
 
     # @WebView("Origin Destination", duration_guess=4)
@@ -183,6 +174,9 @@ class Controller(ViktorController):
 
     @staticmethod
     def get_working_dir(analysis: str) -> Path:
+        """
+        Get the right root working directory for the considered analysis
+        """
         if analysis == "single_link_redundancy":
             root_dir = Path(
                 __file__).parent / "working_directory/single_link_redun"  #
@@ -195,6 +189,9 @@ class Controller(ViktorController):
 
 
 def clean_files(all_directories: list):
+    """
+    Clean all files in the specified directories
+    """
     # Iterate through all specified directories
     for directory_path in all_directories:
         # List all files in the directory

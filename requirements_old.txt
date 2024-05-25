@@ -1,9 +1,0 @@
-viktor==14.7.0
-./local-wheels/GDAL-3.8.2-cp310-cp310-win_amd64.whl; platform_system == "Windows"
-# ra2ce==0.7.0
-ra2ce@git+https://github.com/MatthiasHauthDeltares/ra2ce
-plotly==5.3.1
-mapclassify==2.4.3
-branca
-folium
-#ra2ce@git+https://github.com/MatthiasHauthDeltares/ra2ce # contains GDAL as dependency

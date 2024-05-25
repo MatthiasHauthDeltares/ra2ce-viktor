@@ -1,4 +1,11 @@
 ,road_types,avg_speed
-0,"['residential', 'tertiary']",40.0
-1,residential,32.964148062156625
-2,tertiary,46.36430537260339
+0,"['trunk', 'primary']",84.2982110390815
+1,"['trunk', 'motorway']",85.09722443099433
+2,trunk_link,93.17746501629624
+3,secondary,61.292448211799645
+4,primary,69.7914960525981
+5,secondary_link,70.0
+6,motorway_link,101.17325150573069
+7,primary_link,64.24561520740518
+8,motorway,98.9781652386876
+9,trunk,92.5035465623178
