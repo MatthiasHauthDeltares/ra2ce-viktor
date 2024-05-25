@@ -28,18 +28,18 @@ class Parametrization(ViktorParametrization):
     page_criticality_analysis.tab = Tab("Settings")
     page_criticality_analysis.tab.intro = Section("Introduction")
     page_criticality_analysis.tab.intro.text1 = Text("""
+### RA2CE    
+
+This is the documentation of RA2CE (just say race!) - the Resilience Assessment and Adaptation for Critical infrastructurE Toolkit Python Package developed by Deltares. RA2CE helps to quantify resilience of critical infrastructure networks, prioritize interventions and adaptation measures and select the most appropriate action perspective to increase resilience considering future conditions.
+
 ### Single link redundancy
 
 
-The tool using the single link redundancy analysis from RA2CE to give insight into the criticality of (road) networks. 
-
-It identifies best alternative routes, or high lack of alternative routes in case there is no redundancy.
-
-The redundancy is then expressed in terms of total distance or time for the alternative route, or the difference in time/distance between the original and alternative route.
+The tool utilizes single link redundancy analysis from RA2CE to provide insights into the criticality of (road) networks. It identifies the best alternative routes and highlights areas with a significant lack of alternative routes where redundancy is absent. Redundancy is quantified by measuring the total distance or time of the alternative route, or by comparing the time or distance difference between the original and the alternative route.
 
 ### How does it work?
 
-Draw first a region of interest on the map, then select the road types you want to include in the analysis. The road network is then extracted from OpenStreetMap and the single link redundancy analysis is performed.
+First, draw a region of interest on the map and then select the road types you want to include in the analysis. The road network is then extracted from OpenStreetMap, and the single link redundancy analysis is performed.
 
 ### 
 
