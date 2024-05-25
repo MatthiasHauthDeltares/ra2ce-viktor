@@ -1,5 +1,6 @@
 import configparser
 import os
+from io import StringIO
 from pathlib import Path
 
 import geopandas
@@ -116,10 +117,18 @@ class Controller(ViktorController):
 
         else:
             raise UserError("Invalid result type")
+        path_save = Path(__file__).parent / "working_directory/single_link_redun" / "map_result.html"
+        res_map.save(path_save)
+        # fig_json = res_map.to_json()
 
-        res_map.save("redundant_roads_map.html")
+        #convert json into stringio
 
-        return WebResult.from_path("redundant_roads_map.html")
+
+        # string_io = StringIO()
+        # string_io.write(fig_json)
+
+        # return WebResult(html=string_io)
+        return WebResult.from_path(path_save)
 
     # @WebView("Origin Destination", duration_guess=4)
     # def origin_destination_map(self, params: Munch, **kwargs):

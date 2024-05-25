@@ -6559,3 +6559,359 @@ See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more in
 2024-04-22 11:17:25 PM - [analyses_indirect.py:1360] - root - INFO - Results saved to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\output\single_link_redundancy\beira_redundancy.gpkg
 2024-04-22 11:17:25 PM - [analyses_indirect.py:1336] - root - INFO - ----------------------------- Analysis 'beira_redundancy' finished. Time: 0.28s  -----------------------------
 2024-04-22 11:17:26 PM - [threading.py:1009] - connector - INFO - Job (uid: 694148) completed in 6582ms
+2024-05-18 09:58:51 AM - [ra2ce_logging.py:41] - root - INFO - RA2CE logger initialized.
+2024-05-18 09:58:52 AM - [app.py:78] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: initialising network
+2024-05-18 09:58:53 AM - [network_wrapper_factory.py:54] - root - INFO - Start creating a network from the submitted shapefile.
+2024-05-18 09:58:53 AM - [osm_network_wrapper.py:57] - root - INFO - Start downloading a network from OSM.
+2024-05-18 09:58:53 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-18 09:58:54 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-18 09:58:54 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-18 09:58:55 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-18 09:58:58 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-18 09:58:59 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-18 09:58:59 AM - [osm_network_wrapper.py:181] - root - INFO - graph downloaded from OSM with 410 nodes and 678 edges
+2024-05-18 09:59:01 AM - [threading.py:1009] - connector - WARNING - UserError raised with: Error running RA2CE: OsmNetworkWrapper.snap_nodes_to_nodes() missing 1 required positional argument: 'self'
+2024-05-18 10:23:37 AM - [ra2ce_logging.py:41] - root - INFO - RA2CE logger initialized.
+2024-05-18 10:23:37 AM - [app.py:78] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: initialising network
+2024-05-18 10:23:37 AM - [network_wrapper_factory.py:54] - root - INFO - Start creating a network from the submitted shapefile.
+2024-05-18 10:23:37 AM - [osm_network_wrapper.py:57] - root - INFO - Start downloading a network from OSM.
+2024-05-18 10:23:37 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-18 10:23:38 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-18 10:23:38 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-18 10:23:38 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-18 10:23:39 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-18 10:23:39 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-18 10:23:39 AM - [osm_network_wrapper.py:177] - root - INFO - graph downloaded from OSM with 787 nodes and 1,207 edges
+2024-05-18 10:23:42 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:513: UserWarning: Geometry is in a geographic CRS. Results from 'buffer' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  merged = convert.graph_to_gdfs(G, edges=False)["geometry"].buffer(tolerance).unary_union
+
+2024-05-18 10:23:43 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-18 10:23:43 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:560: UserWarning: Geometry is in a geographic CRS. Results from 'centroid' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  centroids = node_clusters.centroid
+
+2024-05-18 10:23:43 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-18 10:23:44 AM - [networks_utils.py:986] - root - INFO - Simplifying graph
+2024-05-18 10:23:44 AM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid_c'.
+2024-05-18 10:23:44 AM - [networks_utils.py:1118] - root - INFO - Graph simplified from 787 to 195 nodes and 1,207 to 381 edges.
+2024-05-18 10:23:44 AM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid'.
+2024-05-18 10:23:44 AM - [networks_utils.py:1519] - root - INFO - Lookup tables from complex to simple and vice versa were created
+2024-05-18 10:23:44 AM - [networks_utils.py:1004] - root - INFO - Simplified graph succesfully created
+2024-05-18 10:23:44 AM - [osm_network_wrapper.py:66] - root - INFO - Start converting the graph to a geodataframe
+2024-05-18 10:23:44 AM - [osm_network_wrapper.py:68] - root - INFO - Finished converting the graph to a geodataframe
+2024-05-18 10:23:44 AM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) simple_to_complex.json
+2024-05-18 10:23:44 AM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) complex_to_simple.json
+2024-05-18 10:23:44 AM - [networks_utils.py:1686] - root - INFO - Saved the average speeds per road type to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph\avg_speed.csv
+2024-05-18 10:23:46 AM - [multi_graph_network_exporter.py:56] - root - INFO - Saved base_graph in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-18 10:23:46 AM - [geodataframe_network_exporter.py:42] - root - INFO - Saved base_network in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-18 10:23:46 AM - [app.py:81] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: running analysis
+2024-05-18 10:23:46 AM - [analyses_indirect.py:1062] - root - INFO - ----------------------------- Started analyzing 'beira_redundancy'  -----------------------------
+2024-05-18 10:23:47 AM - [analyses_indirect.py:1358] - root - INFO - Results saved to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\output\single_link_redundancy\beira_redundancy.gpkg
+2024-05-18 10:23:47 AM - [analyses_indirect.py:1334] - root - INFO - ----------------------------- Analysis 'beira_redundancy' finished. Time: 0.77s  -----------------------------
+2024-05-18 10:23:48 AM - [threading.py:1009] - connector - INFO - Job (uid: 9930) completed in 11727ms
+2024-05-20 09:43:36 AM - [ra2ce_logging.py:41] - root - INFO - RA2CE logger initialized.
+2024-05-20 09:43:36 AM - [app.py:78] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: initialising network
+2024-05-20 09:43:36 AM - [network_wrapper_factory.py:54] - root - INFO - Start creating a network from the submitted shapefile.
+2024-05-20 09:43:36 AM - [osm_network_wrapper.py:57] - root - INFO - Start downloading a network from OSM.
+2024-05-20 09:43:36 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-20 09:43:37 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-20 09:43:37 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-20 09:43:37 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-20 09:43:38 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-20 09:43:38 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-20 09:43:38 AM - [osm_network_wrapper.py:179] - root - INFO - graph downloaded from OSM with 409 nodes and 597 edges
+2024-05-20 09:43:39 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:513: UserWarning: Geometry is in a geographic CRS. Results from 'buffer' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  merged = convert.graph_to_gdfs(G, edges=False)["geometry"].buffer(tolerance).unary_union
+
+2024-05-20 09:43:39 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-20 09:43:39 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:560: UserWarning: Geometry is in a geographic CRS. Results from 'centroid' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  centroids = node_clusters.centroid
+
+2024-05-20 09:43:39 AM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-20 09:43:39 AM - [networks_utils.py:986] - root - INFO - Simplifying graph
+2024-05-20 09:43:39 AM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid_c'.
+2024-05-20 09:43:39 AM - [networks_utils.py:1118] - root - INFO - Graph simplified from 409 to 111 nodes and 597 to 206 edges.
+2024-05-20 09:43:39 AM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid'.
+2024-05-20 09:43:39 AM - [networks_utils.py:1519] - root - INFO - Lookup tables from complex to simple and vice versa were created
+2024-05-20 09:43:39 AM - [networks_utils.py:1004] - root - INFO - Simplified graph succesfully created
+2024-05-20 09:43:39 AM - [osm_network_wrapper.py:66] - root - INFO - Start converting the graph to a geodataframe
+2024-05-20 09:43:39 AM - [osm_network_wrapper.py:68] - root - INFO - Finished converting the graph to a geodataframe
+2024-05-20 09:43:39 AM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) simple_to_complex.json
+2024-05-20 09:43:39 AM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) complex_to_simple.json
+2024-05-20 09:43:39 AM - [networks_utils.py:1686] - root - INFO - Saved the average speeds per road type to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph\avg_speed.csv
+2024-05-20 09:43:39 AM - [multi_graph_network_exporter.py:56] - root - INFO - Saved base_graph in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-20 09:43:39 AM - [geodataframe_network_exporter.py:42] - root - INFO - Saved base_network in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-20 09:43:39 AM - [app.py:81] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: running analysis
+2024-05-20 09:43:40 AM - [analyses_indirect.py:1064] - root - INFO - ----------------------------- Started analyzing 'beira_redundancy'  -----------------------------
+2024-05-20 09:43:40 AM - [analyses_indirect.py:1360] - root - INFO - Results saved to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\output\single_link_redundancy\beira_redundancy.gpkg
+2024-05-20 09:43:40 AM - [analyses_indirect.py:1336] - root - INFO - ----------------------------- Analysis 'beira_redundancy' finished. Time: 0.15s  -----------------------------
+2024-05-20 09:43:40 AM - [threading.py:1009] - connector - INFO - Job (uid: 9948) completed in 4337ms
+2024-05-21 09:07:59 PM - [ra2ce_logging.py:41] - root - INFO - RA2CE logger initialized.
+2024-05-21 09:07:59 PM - [app.py:79] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: initialising network
+2024-05-21 09:07:59 PM - [network_wrapper_factory.py:54] - root - INFO - Start creating a network from the submitted shapefile.
+2024-05-21 09:07:59 PM - [osm_network_wrapper.py:57] - root - INFO - Start downloading a network from OSM.
+2024-05-21 09:07:59 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:07:59 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:07:59 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:07:59 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:08:01 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-21 09:08:01 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-21 09:08:01 PM - [osm_network_wrapper.py:179] - root - INFO - graph downloaded from OSM with 509 nodes and 660 edges
+2024-05-21 09:08:02 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:513: UserWarning: Geometry is in a geographic CRS. Results from 'buffer' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  merged = convert.graph_to_gdfs(G, edges=False)["geometry"].buffer(tolerance).unary_union
+
+2024-05-21 09:08:02 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:08:02 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:560: UserWarning: Geometry is in a geographic CRS. Results from 'centroid' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  centroids = node_clusters.centroid
+
+2024-05-21 09:08:02 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-21 09:08:02 PM - [networks_utils.py:986] - root - INFO - Simplifying graph
+2024-05-21 09:08:02 PM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid_c'.
+2024-05-21 09:08:02 PM - [networks_utils.py:1118] - root - INFO - Graph simplified from 509 to 120 nodes and 660 to 193 edges.
+2024-05-21 09:08:02 PM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid'.
+2024-05-21 09:08:02 PM - [networks_utils.py:1519] - root - INFO - Lookup tables from complex to simple and vice versa were created
+2024-05-21 09:08:02 PM - [networks_utils.py:1004] - root - INFO - Simplified graph succesfully created
+2024-05-21 09:08:02 PM - [osm_network_wrapper.py:66] - root - INFO - Start converting the graph to a geodataframe
+2024-05-21 09:08:02 PM - [osm_network_wrapper.py:68] - root - INFO - Finished converting the graph to a geodataframe
+2024-05-21 09:08:02 PM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) simple_to_complex.json
+2024-05-21 09:08:02 PM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) complex_to_simple.json
+2024-05-21 09:08:02 PM - [networks_utils.py:1686] - root - INFO - Saved the average speeds per road type to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph\avg_speed.csv
+2024-05-21 09:08:02 PM - [multi_graph_network_exporter.py:56] - root - INFO - Saved base_graph in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-21 09:08:02 PM - [geodataframe_network_exporter.py:42] - root - INFO - Saved base_network in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-21 09:08:02 PM - [app.py:82] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: running analysis
+2024-05-21 09:08:03 PM - [analyses_indirect.py:1064] - root - INFO - ----------------------------- Started analyzing 'beira_redundancy'  -----------------------------
+2024-05-21 09:08:03 PM - [analyses_indirect.py:1360] - root - INFO - Results saved to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\output\single_link_redundancy\beira_redundancy.gpkg
+2024-05-21 09:08:03 PM - [analyses_indirect.py:1336] - root - INFO - ----------------------------- Analysis 'beira_redundancy' finished. Time: 0.16s  -----------------------------
+2024-05-21 09:08:03 PM - [threading.py:1009] - connector - INFO - Job (uid: 9966) completed in 4767ms
+2024-05-21 09:13:59 PM - [ra2ce_logging.py:41] - root - INFO - RA2CE logger initialized.
+2024-05-21 09:13:59 PM - [app.py:79] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: initialising network
+2024-05-21 09:14:00 PM - [network_wrapper_factory.py:54] - root - INFO - Start creating a network from the submitted shapefile.
+2024-05-21 09:14:00 PM - [osm_network_wrapper.py:57] - root - INFO - Start downloading a network from OSM.
+2024-05-21 09:14:00 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:14:00 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:14:00 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:14:00 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:14:01 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-21 09:14:01 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-21 09:14:01 PM - [osm_network_wrapper.py:179] - root - INFO - graph downloaded from OSM with 509 nodes and 660 edges
+2024-05-21 09:14:02 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:513: UserWarning: Geometry is in a geographic CRS. Results from 'buffer' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  merged = convert.graph_to_gdfs(G, edges=False)["geometry"].buffer(tolerance).unary_union
+
+2024-05-21 09:14:02 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:14:02 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:560: UserWarning: Geometry is in a geographic CRS. Results from 'centroid' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  centroids = node_clusters.centroid
+
+2024-05-21 09:14:02 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-21 09:14:02 PM - [networks_utils.py:986] - root - INFO - Simplifying graph
+2024-05-21 09:14:02 PM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid_c'.
+2024-05-21 09:14:02 PM - [networks_utils.py:1118] - root - INFO - Graph simplified from 509 to 120 nodes and 660 to 193 edges.
+2024-05-21 09:14:02 PM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid'.
+2024-05-21 09:14:02 PM - [networks_utils.py:1519] - root - INFO - Lookup tables from complex to simple and vice versa were created
+2024-05-21 09:14:02 PM - [networks_utils.py:1004] - root - INFO - Simplified graph succesfully created
+2024-05-21 09:14:02 PM - [osm_network_wrapper.py:66] - root - INFO - Start converting the graph to a geodataframe
+2024-05-21 09:14:02 PM - [osm_network_wrapper.py:68] - root - INFO - Finished converting the graph to a geodataframe
+2024-05-21 09:14:02 PM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) simple_to_complex.json
+2024-05-21 09:14:02 PM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) complex_to_simple.json
+2024-05-21 09:14:02 PM - [networks_utils.py:1686] - root - INFO - Saved the average speeds per road type to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph\avg_speed.csv
+2024-05-21 09:14:03 PM - [multi_graph_network_exporter.py:56] - root - INFO - Saved base_graph in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-21 09:14:03 PM - [geodataframe_network_exporter.py:42] - root - INFO - Saved base_network in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-21 09:14:03 PM - [app.py:82] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: running analysis
+2024-05-21 09:14:03 PM - [analyses_indirect.py:1064] - root - INFO - ----------------------------- Started analyzing 'beira_redundancy'  -----------------------------
+2024-05-21 09:14:03 PM - [analyses_indirect.py:1360] - root - INFO - Results saved to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\output\single_link_redundancy\beira_redundancy.gpkg
+2024-05-21 09:14:03 PM - [analyses_indirect.py:1336] - root - INFO - ----------------------------- Analysis 'beira_redundancy' finished. Time: 0.13s  -----------------------------
+2024-05-21 09:14:04 PM - [threading.py:1009] - connector - INFO - Job (uid: 9968) completed in 4447ms
+2024-05-21 09:16:28 PM - [ra2ce_logging.py:41] - root - INFO - RA2CE logger initialized.
+2024-05-21 09:16:28 PM - [app.py:79] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: initialising network
+2024-05-21 09:16:29 PM - [network_wrapper_factory.py:54] - root - INFO - Start creating a network from the submitted shapefile.
+2024-05-21 09:16:29 PM - [osm_network_wrapper.py:57] - root - INFO - Start downloading a network from OSM.
+2024-05-21 09:16:29 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:16:29 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:16:29 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:16:29 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:16:30 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-21 09:16:30 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-21 09:16:30 PM - [osm_network_wrapper.py:179] - root - INFO - graph downloaded from OSM with 509 nodes and 660 edges
+2024-05-21 09:16:31 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:513: UserWarning: Geometry is in a geographic CRS. Results from 'buffer' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  merged = convert.graph_to_gdfs(G, edges=False)["geometry"].buffer(tolerance).unary_union
+
+2024-05-21 09:16:31 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\dtypes\cast.py:1641: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  return np.find_common_type(types, [])
+
+2024-05-21 09:16:31 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\osmnx\simplification.py:560: UserWarning: Geometry is in a geographic CRS. Results from 'centroid' are likely incorrect. Use 'GeoSeries.to_crs()' to re-project geometries to a projected CRS before this operation.
+
+  centroids = node_clusters.centroid
+
+2024-05-21 09:16:31 PM - [warnings.py:109] - py.warnings - WARNING - C:\Users\hauth\bitbucket\ra2ce-viktor\venv\lib\site-packages\pandas\core\algorithms.py:522: DeprecationWarning: np.find_common_type is deprecated.  Please use `np.result_type` or `np.promote_types`.
+See https://numpy.org/devdocs/release/1.25.0-notes.html and the docs for more information.  (Deprecated NumPy 1.25)
+  common = np.find_common_type([values.dtype, comps_array.dtype], [])
+
+2024-05-21 09:16:31 PM - [networks_utils.py:986] - root - INFO - Simplifying graph
+2024-05-21 09:16:31 PM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid_c'.
+2024-05-21 09:16:31 PM - [networks_utils.py:1118] - root - INFO - Graph simplified from 509 to 120 nodes and 660 to 193 edges.
+2024-05-21 09:16:31 PM - [networks_utils.py:1085] - root - INFO - Added a new unique identifier field 'rfid'.
+2024-05-21 09:16:31 PM - [networks_utils.py:1519] - root - INFO - Lookup tables from complex to simple and vice versa were created
+2024-05-21 09:16:31 PM - [networks_utils.py:1004] - root - INFO - Simplified graph succesfully created
+2024-05-21 09:16:31 PM - [osm_network_wrapper.py:66] - root - INFO - Start converting the graph to a geodataframe
+2024-05-21 09:16:31 PM - [osm_network_wrapper.py:68] - root - INFO - Finished converting the graph to a geodataframe
+2024-05-21 09:16:31 PM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) simple_to_complex.json
+2024-05-21 09:16:31 PM - [json_exporter.py:46] - root - INFO - Saved (or overwrote) complex_to_simple.json
+2024-05-21 09:16:31 PM - [networks_utils.py:1686] - root - INFO - Saved the average speeds per road type to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph\avg_speed.csv
+2024-05-21 09:16:31 PM - [multi_graph_network_exporter.py:56] - root - INFO - Saved base_graph in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-21 09:16:31 PM - [geodataframe_network_exporter.py:42] - root - INFO - Saved base_network in C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\static\output_graph.
+2024-05-21 09:16:31 PM - [app.py:82] - viktor.core - INFO - Progress message sent:
+   | Running RA2CE: running analysis
+2024-05-21 09:16:31 PM - [analyses_indirect.py:1064] - root - INFO - ----------------------------- Started analyzing 'beira_redundancy'  -----------------------------
+2024-05-21 09:16:31 PM - [analyses_indirect.py:1360] - root - INFO - Results saved to: C:\Users\hauth\bitbucket\ra2ce-viktor\working_directory\single_link_redun\output\single_link_redundancy\beira_redundancy.gpkg
+2024-05-21 09:16:31 PM - [analyses_indirect.py:1336] - root - INFO - ----------------------------- Analysis 'beira_redundancy' finished. Time: 0.11s  -----------------------------
+2024-05-21 09:16:32 PM - [threading.py:1009] - connector - INFO - Job (uid: 9970) completed in 3851ms
