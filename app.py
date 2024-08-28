@@ -42,10 +42,8 @@ class Controller(ViktorController):
         return MapResult(features, legend=legend)
 
     @staticmethod
-    @memoize
     def run_network(road_type: list[str], poly_coords: list[list[float]], root_dir: str):
         """
-        Run t
 
         """
 
