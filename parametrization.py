@@ -1,5 +1,5 @@
 from viktor.parametrization import ViktorParametrization, Section, NumberField, FileField, TableInput, TextField, \
-    OptionField, DownloadButton, Text, Tab, GeoPolygonField, MultiSelectField, OptionListElement, GeoPointField, Page
+    OptionField, DownloadButton, Text, Tab, GeoPolygonField, MultiSelectField, OptionListElement, GeoPointField, Page, Step
 
 option_roads = [
     OptionListElement(label="Motorway", value="motorway"),

@@ -4,16 +4,20 @@ from pathlib import Path
 
 import geopandas
 from munch import Munch
+from ra2ce.network import RoadTypeEnum
+from ra2ce.network.network_config_data.enums.source_enum import SourceEnum
+from ra2ce.network.network_config_data.network_config_data import NetworkSection, CleanupSection, NetworkConfigData
+from ra2ce.network.network_wrappers.osm_network_wrapper.osm_network_wrapper import OsmNetworkWrapper
 from ra2ce.ra2ce_handler import Ra2ceHandler
 from shapely import Polygon
-from viktor import ViktorController, UserError, progress_message
+from viktor import ViktorController, UserError, progress_message, GeoPolygon, GeoPolyline, GeoPoint, Color
 from viktor.utils import memoize
-from viktor.views import WebResult, WebView, MapResult, MapLegend, MapPolygon, MapView
+from viktor.views import WebResult, WebView, MapResult, MapLegend, MapPolygon, MapView, MapPolyline
 import geopandas as gpd
 import osmnx
 
-from parametrization import Parametrization
-
+from constants import color_osm_dict, map_legend_osm
+from parametrization_new import Parametrization
 
 
 class Controller(ViktorController):
@@ -25,21 +29,96 @@ class Controller(ViktorController):
     def get_map_view(self, params: Munch, **kwargs):
         features = []
 
-        if params.page_criticality_analysis.tab.network.selection_polygon:
-            features.append(MapPolygon.from_geo_polygon(params.page_criticality_analysis.tab.network.selection_polygon))
+        if params.network_configuration.tab.selection_polygon:
+            features.append(MapPolygon.from_geo_polygon(params.network_configuration.tab.selection_polygon))
 
-        # if params.tab.OD.origin:
-        #     features.append(MapPoint.from_geo_point(params.tab.OD.origin, color=Color.green()))
-        #
-        # if params.tab.OD.destination:
-        #     features.append(MapPoint.from_geo_point(params.tab.OD.destination, color=Color.blue(), icon='plus-thick'))
+        root_dir = Path(self.get_work_dir())
+        network_gpkg = root_dir.joinpath("static", 'output_graph', 'base_network.gpkg')
+        if network_gpkg.exists():
+            legend = map_legend_osm
+            gdf = gpd.read_file(network_gpkg)
+            for index, row in gdf.iterrows():
+                linestring = row['geometry']
+                road_type = row["highway"]
 
-        legend = MapLegend([
-            # (Color.green(), "Origins"),
-            # (Color.blue(), "Hospitals"),
-        ])
+                geopolyline = GeoPolyline(*[GeoPoint(*[point[1], point[0]]) for point in linestring.coords])
+                color = color_osm_dict.get(road_type, "#000000")
+                polyline = MapPolyline.from_geo_polyline(geopolyline, color=Color.from_hex(color))
+
+                features.append(polyline)
+        else:
+            legend = MapLegend([
+                # (Color.green(), "Origins"),
+                # (Color.blue(), "Hospitals"),
+            ])
 
         return MapResult(features, legend=legend)
+
+    @WebView('Detailed Network Info', duration_guess=1)
+    def detailed_network_info(self, params: Munch, **kwargs):
+        root_dir = Path(self.get_work_dir())
+
+        network_gpkg = root_dir.joinpath("static", 'output_graph', 'base_network.gpkg')
+        if network_gpkg.exists():
+            gdf = gpd.read_file(network_gpkg)
+            res_map = gdf.explore(color='black', tiles="CartoDB positron")
+            path_save = Path(__file__).parent.joinpath("network_map_results.html")
+            res_map.save(path_save)
+
+            return WebResult.from_path(path_save)
+        else:
+            raise UserError("Network not available")
+
+    def download_network(self, params, **kwargs):
+
+        # 1. check if all required fields are filled
+        if params.network_configuration.tab.selection_polygon is None:
+            raise UserError("Please select a region of interest")
+        if not params.network_configuration.tab.roadtype_select:
+            raise UserError("Please select road types")
+
+        root_dir = Path(self.get_work_dir())
+        static_path = root_dir.joinpath("static")
+        output_path = root_dir.joinpath("output")
+
+        # 2. Clean up workign directory
+        output_directories = [
+            root_dir / "static" / "output_graph",
+            root_dir / "static" / "network",
+        ]
+        clean_files(output_directories)
+
+        # 3. Network configuration
+
+        road_types = [RoadTypeEnum(road_type) for road_type in params.network_configuration.tab.roadtype_select]
+        polygon = Polygon(
+            [[point.lon, point.lat] for point in params.network_configuration.tab.selection_polygon.points])
+        gdf = geopandas.GeoDataFrame(geometry=[polygon])
+        path_to_polygon_geojson = root_dir / "static/network/map.geojson"
+        gdf.to_file(path_to_polygon_geojson, driver="GeoJSON")
+
+        _network_section = NetworkSection(
+            directed=False,
+            source=SourceEnum.OSM_DOWNLOAD,
+            road_types=[RoadTypeEnum(road_type) for road_type in params.network_configuration.tab.roadtype_select],
+            polygon=path_to_polygon_geojson,
+            save_gpkg=True
+
+        )
+
+        # pass the specified sections as arguments for configuration
+
+        _network_config_data = NetworkConfigData(
+            root_path=root_dir,
+            static_path=static_path,
+            output_path=output_path,
+            network=_network_section,
+        )
+
+        _graph, _gdf = OsmNetworkWrapper.get_network_from_polygon(_network_config_data, polygon)
+
+        handler = Ra2ceHandler.from_config(_network_config_data, None)
+        handler.configure()
 
     @staticmethod
     def run_network(road_type: list[str], poly_coords: list[list[float]], root_dir: str):
@@ -62,7 +141,7 @@ class Controller(ViktorController):
         analyses_ini = root_dir / _analyses_ini_name  # set path to analysis.ini
 
         # modify network.ini
-        modify_network_ini(network_ini, road_type)
+        # modify_network_ini(network_ini, road_type)
         osmnx.utils.config(cache_folder=Path(__file__).parent / "osmnx_cache")
 
         try:
@@ -171,18 +250,12 @@ class Controller(ViktorController):
     #     return WebResult.from_path("res_map.html")
 
     @staticmethod
-    def get_working_dir(analysis: str) -> Path:
+    def get_work_dir() -> Path:
         """
-        Get the right root working directory for the considered analysis
+        Get the right root working directory
         """
-        if analysis == "single_link_redundancy":
-            root_dir = Path(
-                __file__).parent / "working_directory/single_link_redun"  #
-        elif analysis == 'origin_destination':
-            root_dir = Path(
-                __file__).parent / "working_directory/od_no_hazard"
-        else:
-            raise ValueError("analysis not supported")
+        root_dir = Path(
+            __file__).parent / "work_dir"
         return root_dir
 
 
