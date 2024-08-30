@@ -1,16 +1,22 @@
 import configparser
 import os
+from io import BytesIO
 from pathlib import Path
 
 import geopandas
+import rasterio
 from munch import Munch
 from ra2ce.network import RoadTypeEnum
+from ra2ce.network.network_config_data.enums.aggregate_wl_enum import AggregateWlEnum
 from ra2ce.network.network_config_data.enums.source_enum import SourceEnum
-from ra2ce.network.network_config_data.network_config_data import NetworkSection, CleanupSection, NetworkConfigData
+from ra2ce.network.network_config_data.network_config_data import NetworkSection, CleanupSection, NetworkConfigData, \
+    HazardSection
 from ra2ce.network.network_wrappers.osm_network_wrapper.osm_network_wrapper import OsmNetworkWrapper
 from ra2ce.ra2ce_handler import Ra2ceHandler
 from shapely import Polygon
+from shapely.geometry import shape
 from viktor import ViktorController, UserError, progress_message, GeoPolygon, GeoPolyline, GeoPoint, Color
+from viktor.core import NamedTemporaryFile
 from viktor.utils import memoize
 from viktor.views import WebResult, WebView, MapResult, MapLegend, MapPolygon, MapView, MapPolyline
 import geopandas as gpd
@@ -90,7 +96,6 @@ class Controller(ViktorController):
 
         # 3. Network configuration
 
-        road_types = [RoadTypeEnum(road_type) for road_type in params.network_configuration.tab.roadtype_select]
         polygon = Polygon(
             [[point.lon, point.lat] for point in params.network_configuration.tab.selection_polygon.points])
         gdf = geopandas.GeoDataFrame(geometry=[polygon])
@@ -119,6 +124,135 @@ class Controller(ViktorController):
 
         handler = Ra2ceHandler.from_config(_network_config_data, None)
         handler.configure()
+
+
+    @WebView('Hazard Map', duration_guess=5)
+    def hazard_map(self, params: Munch, **kwargs):
+        features = []
+
+        import folium
+
+        # open raster file
+        raster_file = params.hazard_mapping.section.hazard_select.file
+        data = BytesIO(raster_file.getvalue_binary())
+        with rasterio.open(data) as src:
+            crs = src.crs
+            print(crs)
+            t = src.transform
+            shapes_values = list(rasterio.features.shapes(src.read(1), transform=t))
+            # Get the bounding box
+            bounds = src.bounds
+            # Get the extent
+            extent = [
+                [bounds.left, bounds.top],
+                [bounds.right, bounds.top],
+                [bounds.right, bounds.bottom],
+                [bounds.left, bounds.bottom],
+                [bounds.left, bounds.top]
+            ]
+        features = [
+            {'type': 'Feature', 'properties': {'value': value}, 'geometry': shape(geom)}
+            for geom, value in shapes_values if value > 0  # Filter out zero values
+        ]
+
+        # Create a GeoDataFrame from the list of features
+        gdf = gpd.GeoDataFrame.from_features(features, crs=crs)
+
+        # Now you can use 'gdf.explore()' to visualize the GeoDataFrame
+        m = gdf.explore(
+            column='value',  # The column based on which to apply colors
+            cmap='Blues',  # Your chosen colormap
+            tiles='CartoDB positron',
+            scheme='Quantiles',
+            style_kwds={'fillOpacity': 0.7, 'lineOpacity': 0.1}
+        )
+
+        # Add layer control to toggle layers
+        folium.LayerControl().add_to(m)
+        m.save("map.html")
+
+        path_save = Path(__file__).parent.joinpath("hazard.html")
+        m.save(path_save)
+
+        return WebResult.from_path(path_save)
+        # Display the map
+
+
+    def overlay_hazard(self, params, **kwargs):
+
+        # 1. check if all required fields are filled
+        if params.network_configuration.tab.selection_polygon is None:
+            raise UserError("Please select a region of interest")
+        if not params.network_configuration.tab.roadtype_select:
+            raise UserError("Please select road types")
+        if params.hazard_mapping.section.hazard_select is None:
+            raise UserError("Please upload a hazard file")
+
+        root_dir = Path(self.get_work_dir())
+        static_path = root_dir.joinpath("static")
+        output_path = root_dir.joinpath("output")
+        hazard_path = root_dir.joinpath("static", "hazard")
+
+        # 3. Network configuration
+
+
+        path_to_polygon_geojson = root_dir / "static/network/map.geojson"
+
+        _network_section = NetworkSection(
+            directed=False,
+            source=SourceEnum.OSM_DOWNLOAD,
+            road_types=[RoadTypeEnum(road_type) for road_type in params.network_configuration.tab.roadtype_select],
+            polygon=path_to_polygon_geojson,
+            save_gpkg=True
+
+        )
+
+        raster_file = params.hazard_mapping.section.hazard_select.file
+        data = BytesIO(raster_file.getvalue_binary())
+
+        # Copy hazard file to static/hazard
+        hazard_file = hazard_path.joinpath("hazard.tif")
+        with open(hazard_file, 'wb') as f:
+            f.write(data.getvalue())
+
+        _hazard = HazardSection(
+            hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
+            hazard_field_name=['waterdepth'],
+            aggregate_wl=AggregateWlEnum.MAX,
+            hazard_crs='EPSG:28992'
+        )
+
+        # pass the specified sections as arguments for configuration
+
+        _network_config_data = NetworkConfigData(
+            root_path=root_dir,
+            static_path=static_path,
+            output_path=output_path,
+            hazard=_hazard,
+            network=_network_section,
+        )
+
+        handler = Ra2ceHandler.from_config(_network_config_data, None)
+        handler.configure()
+
+
+        # return MapResult(features)
+
+    @WebView('Overlaid Network', duration_guess=5)
+    def overlaid_network(self, params: Munch, **kwargs):
+        root_dir = Path(self.get_work_dir())
+
+        network_gpkg = root_dir.joinpath("static", 'output_graph', 'base_network_hazard.gpkg')
+        if network_gpkg.exists():
+            gdf = gpd.read_file(network_gpkg)
+            res_map = gdf.explore(column="EV1_ma", tiles="CartoDB positron", cmap="viridis_r", scheme='EqualInterval')
+            path_save = Path(__file__).parent.joinpath("network_map_results.html")
+            res_map.save(path_save)
+
+            return WebResult.from_path(path_save)
+        else:
+            raise UserError("Network not available")
+
 
     @staticmethod
     def run_network(road_type: list[str], poly_coords: list[list[float]], root_dir: str):

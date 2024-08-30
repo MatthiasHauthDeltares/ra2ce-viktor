@@ -1,5 +1,5 @@
 from ra2ce.network import RoadTypeEnum
-from viktor import LineBreak
+from viktor import LineBreak, BooleanField
 from viktor.parametrization import ViktorParametrization, Section, NumberField, FileField, TableInput, TextField, \
     OptionField, DownloadButton, Text, Tab, GeoPolygonField, MultiSelectField, OptionListElement, GeoPointField, Page, \
     Step, ActionButton
@@ -50,9 +50,25 @@ Click on the button below to download the network from OSM.
 
     network_configuration.tab.button_download = ActionButton("Download network", "download_network")
 
-    hazard_mapping = Step("Hazard mapping", views=[])
+    hazard_mapping = Step("Hazard mapping", views=["hazard_map", "overlaid_network"])
+    hazard_mapping.section = Section("Settings")
+    hazard_mapping.section.text1 = Text(""" 
+### 1. Hazard mapping
+    
+The second step is to define the hazard(s) that will be used in the analysis. The hazard(s) can be selected from the
+dropdown list below.
 
+    """)
+    hazard_mapping.section.hazard_select = FileField("Select hazard file", file_types=[".tif", ".tiff"])
+    hazard_mapping.section.dummy = BooleanField("on/off")
 
+    hazard_mapping.section.lb = LineBreak()
+    hazard_mapping.section.text2 = Text("""
+### 2. Overlay hazard map
+
+Click on the button below to overlay the hazard map on the network.
+    """)
+    hazard_mapping.section.button_overlay = ActionButton("Overlay hazard map", "overlay_hazard")
 
     analysis_selection = Step("Analysis selection", views=[])
 
