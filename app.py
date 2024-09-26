@@ -6,6 +6,10 @@ from pathlib import Path
 import geopandas
 import rasterio
 from munch import Munch
+from ra2ce.analysis.analysis_config_data.analysis_config_data import AnalysisSectionDamages, AnalysisConfigData
+from ra2ce.analysis.analysis_config_data.enums.analysis_damages_enum import AnalysisDamagesEnum
+from ra2ce.analysis.analysis_config_data.enums.damage_curve_enum import DamageCurveEnum
+from ra2ce.analysis.analysis_config_data.enums.event_type_enum import EventTypeEnum
 from ra2ce.network import RoadTypeEnum
 from ra2ce.network.network_config_data.enums.aggregate_wl_enum import AggregateWlEnum
 from ra2ce.network.network_config_data.enums.source_enum import SourceEnum
@@ -17,6 +21,7 @@ from shapely import Polygon
 from shapely.geometry import shape
 from viktor import ViktorController, UserError, progress_message, GeoPolygon, GeoPolyline, GeoPoint, Color
 from viktor.core import NamedTemporaryFile
+from viktor.result import SetParamsResult
 from viktor.utils import memoize
 from viktor.views import WebResult, WebView, MapResult, MapLegend, MapPolygon, MapView, MapPolyline
 import geopandas as gpd
@@ -123,7 +128,9 @@ class Controller(ViktorController):
         _graph, _gdf = OsmNetworkWrapper.get_network_from_polygon(_network_config_data, polygon)
 
         handler = Ra2ceHandler.from_config(_network_config_data, None)
+        progress_message("Downloading the network from OSM ... Depending on the size, this can take up to a few minutes ")
         handler.configure()
+        return SetParamsResult(params)
 
 
     @WebView('Hazard Map', duration_guess=5)
@@ -137,7 +144,6 @@ class Controller(ViktorController):
         data = BytesIO(raster_file.getvalue_binary())
         with rasterio.open(data) as src:
             crs = src.crs
-            print(crs)
             t = src.transform
             shapes_values = list(rasterio.features.shapes(src.read(1), transform=t))
             # Get the bounding box
@@ -169,6 +175,11 @@ class Controller(ViktorController):
 
         # Add layer control to toggle layers
         folium.LayerControl().add_to(m)
+
+        polygon = Polygon(
+            [[point.lon, point.lat] for point in params.network_configuration.tab.selection_polygon.points])
+        # add polygon to map:
+        folium.GeoJson(polygon, name='polygon').add_to(m)
         m.save("map.html")
 
         path_save = Path(__file__).parent.joinpath("hazard.html")
@@ -231,7 +242,7 @@ class Controller(ViktorController):
             hazard=_hazard,
             network=_network_section,
         )
-
+        progress_message("Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
         handler = Ra2ceHandler.from_config(_network_config_data, None)
         handler.configure()
 
@@ -252,6 +263,90 @@ class Controller(ViktorController):
             return WebResult.from_path(path_save)
         else:
             raise UserError("Network not available")
+
+
+    def run_analysis(self, params: Munch, **kwargs):
+        root_dir = Path(self.get_work_dir())
+        output_directories = [
+            root_dir / "output" / "damages"
+        ]
+        clean_files(output_directories)
+
+        root_dir = Path(self.get_work_dir())
+        static_path = root_dir.joinpath("static")
+        output_path = root_dir.joinpath("output")
+        hazard_path = root_dir.joinpath("static", "hazard")
+
+        path_to_polygon_geojson = root_dir / "static/network/map.geojson"
+
+        _network_section = NetworkSection(
+            directed=False,
+            source=SourceEnum.OSM_DOWNLOAD,
+            road_types=[RoadTypeEnum(road_type) for road_type in params.network_configuration.tab.roadtype_select],
+            polygon=path_to_polygon_geojson,
+            save_gpkg=True
+
+        )
+
+        raster_file = params.hazard_mapping.section.hazard_select.file
+        data = BytesIO(raster_file.getvalue_binary())
+
+        # Copy hazard file to static/hazard
+        hazard_file = hazard_path.joinpath("hazard.tif")
+        with open(hazard_file, 'wb') as f:
+            f.write(data.getvalue())
+
+        _hazard = HazardSection(
+            hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
+            hazard_field_name=['waterdepth'],
+            aggregate_wl=AggregateWlEnum.MAX,
+            hazard_crs='EPSG:28992'
+        )
+
+        # pass the specified sections as arguments for configuration
+
+        _network_config_data = NetworkConfigData(
+            root_path=root_dir,
+            static_path=static_path,
+            output_path=output_path,
+            hazard=_hazard,
+            network=_network_section,
+        )
+
+        _section_damage = [AnalysisSectionDamages(
+            name='Manual_damageXX',
+            analysis=AnalysisDamagesEnum.DAMAGES,
+            event_type=EventTypeEnum.EVENT,
+            damage_curve=DamageCurveEnum.HZ,
+            save_gpkg=True,
+            save_csv=True,
+        )]
+
+        _analysis_config_data = AnalysisConfigData(analyses=_section_damage, root_path=root_dir,
+                                                   output_path=output_path)
+
+        handler = Ra2ceHandler.from_config(_network_config_data, _analysis_config_data)
+        handler.configure()
+        handler.run_analysis()
+
+
+
+
+    @WebView('Result Analysis', duration_guess=5)
+    def result_analysis(self, params: Munch, **kwargs):
+        root_dir = Path(self.get_work_dir())
+
+        network_gpkg = root_dir.joinpath("output", 'damages', 'Manual_damageXX_link_based.gpkg')
+        if network_gpkg.exists():
+            gdf = gpd.read_file(network_gpkg)
+            res_map = gdf.explore(column="dam_EV1_HZ", tiles="CartoDB positron", cmap="viridis_r", scheme='EqualInterval')
+            path_save = Path(__file__).parent.joinpath("damage_map_results.html")
+            res_map.save(path_save)
+
+            return WebResult.from_path(path_save)
+        else:
+            raise UserError("Network not available")
+
 
 
     @staticmethod
