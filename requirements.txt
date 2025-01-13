@@ -1,6 +1,7 @@
 viktor==14.19.0
 ./local-wheels/GDAL-3.9.2-cp311-cp311-win_amd64.whl; platform_system == "Windows"
-ra2ce==1.0.0
+./local-wheels/ra2ce_v1.0.0_no_osm_cache.zip
+#ra2ce==1.0.0
 plotly==5.3.1
 mapclassify==2.4.3
 branca
