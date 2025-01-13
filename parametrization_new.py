@@ -26,7 +26,7 @@ option_single_link_result_types = [
 ]
 
 option_analysis_types = [
-    OptionListElement("Losses", "losses"),
+    # OptionListElement("Losses", "losses"),
     OptionListElement("Damages", "damages"),
     OptionListElement("Criticality", "criticality"),
     OptionListElement("Origin-Destination", "origin_destination"),

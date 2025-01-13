@@ -1,5 +1,4 @@
 viktor==14.19.0
-fiona
 ./local-wheels/GDAL-3.9.2-cp311-cp311-win_amd64.whl; platform_system == "Windows"
 ra2ce==1.0.0
 plotly==5.3.1

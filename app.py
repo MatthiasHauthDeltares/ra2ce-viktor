@@ -29,6 +29,8 @@ import osmnx
 
 from constants import color_osm_dict, map_legend_osm
 from parametrization_new import Parametrization
+from rasterio.warp import calculate_default_transform, reproject, Resampling
+from rasterio.enums import Resampling
 
 
 class Controller(ViktorController):
@@ -225,12 +227,18 @@ class Controller(ViktorController):
         hazard_file = hazard_path.joinpath("hazard.tif")
         with open(hazard_file, 'wb') as f:
             f.write(data.getvalue())
+            # Specify the new CRS (e.g., EPSG:4326 for WGS84)
+
+        input_tif = hazard_file
+        new_crs = 'EPSG:4326'  # Replace with the desired CRS
+        output_tif = hazard_path.joinpath("hazard_new_crs.tif")
+        modify_crs(input_tif, output_tif, new_crs)
 
         _hazard = HazardSection(
-            hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
+            hazard_map=[output_tif],  # [Path(geotiff_files[0])],
             hazard_field_name=['waterdepth'],
             aggregate_wl=AggregateWlEnum.MAX,
-            hazard_crs='EPSG:28992'
+            hazard_crs='EPSG:4326'
         )
 
         # pass the specified sections as arguments for configuration
@@ -300,7 +308,7 @@ class Controller(ViktorController):
             hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
             hazard_field_name=['waterdepth'],
             aggregate_wl=AggregateWlEnum.MAX,
-            hazard_crs='EPSG:28992'
+            hazard_crs='EPSG:4326'
         )
 
         # pass the specified sections as arguments for configuration
@@ -427,56 +435,6 @@ class Controller(ViktorController):
 
         return WebResult.from_path(path_save)
 
-    # @WebView("Origin Destination", duration_guess=4)
-    # def origin_destination_map(self, params: Munch, **kwargs):
-    #
-    #     root_dir = Path(__file__).parent / "working_directory/origin_destination_analysis_without_hazard"
-    #     origins_inspection = root_dir / "static" / "network" / "origins.shp"
-    #
-    #     # change shapefile:
-    #
-    #     origins_gdf = gpd.read_file(origins_inspection, driver="SHP")
-    #     origins_gdf.head()
-    #     res_map = origins_gdf.explore(column="POPULATION", cmap="viridis_r", tiles="CartoDB dark_matter")
-    #
-    #     _network_ini_name = "network.ini"  # set the name for the network.ini
-    #     _analysis_ini_name = "analysis.ini"  # set the name for the analysis.ini
-    #
-    #     network_ini = root_dir / _network_ini_name
-    #     analysis_ini = root_dir / _analysis_ini_name
-    #
-    #     handler = Ra2ceHandler(network=network_ini, analysis=analysis_ini)
-    #     handler.configure()
-    #     handler.run_analysis()
-    #
-    #
-    #     ### WITH HAZARD
-    #     root_dir = Path(__file__).parent / "working_directory/origin_destination_analysis_with_hazard"
-    #     hazard_folder = root_dir / "static" / "hazard"  # find the hazard folder where you locate your floo dmap
-    #     hazard_map = hazard_folder / "max_flood_depth.tif"  # set the location of the hazard map
-    #     _network_ini_name = "network.ini"  # set the name for the network.ini
-    #     _analysis_ini_name = "analysis.ini"  # set the name for the analysis.ini
-    #
-    #     network_ini = root_dir / _network_ini_name
-    #     analysis_ini = root_dir / _analysis_ini_name
-    #
-    #     handler = Ra2ceHandler(network=network_ini, analysis=analysis_ini)
-    #     handler.configure()
-    #     handler.run_analysis()
-    #
-    #     analysis_output_path = root_dir / "output" / "multi_link_origin_closest_destination"
-    #     gdf = gpd.read_file(analysis_output_path / 'multi_link_origin_closest_destination_destinations.gpkg')
-    #     print(gdf.head())  # show the origins
-    #
-    #     gdf_education = gdf[gdf['category'] == 'education']
-    #     gdf_education['access_PD1'] = gdf_education.apply(lambda row: '1' if row['EV1_ma_PD1'] > 0 else '0', axis=1)
-    #     res_map = gdf_education.explore(column='access_PD1', cmap=['red', 'green'], tiles="CartoDB dark_matter")
-    #
-    #
-    #     res_map.save("res_map.html")
-    #
-    #
-    #     return WebResult.from_path("res_map.html")
 
     @staticmethod
     def get_work_dir() -> Path:
@@ -529,3 +487,41 @@ def get_network(root_dir: Path, poly_coords: list[list[float]]):
         gdf = geopandas.GeoDataFrame(geometry=[polygon])
         path_to_geojson = root_dir / "static/network/map.geojson"
         gdf.to_file(path_to_geojson, driver="GeoJSON")
+
+def modify_crs(input_tif, output_tif, new_crs):
+    # Open the input TIFF file
+    with rasterio.open(input_tif) as src:
+        # Get the current CRS, transform, width, and height of the source image
+        print(src.crs, new_crs, src.width, src.height, *src.bounds)
+        from rasterio.crs import CRS
+        import os
+
+        # Check PROJ_LIB environment variable
+        print(f"PROJ_LIB: {os.getenv('PROJ_LIB')}")
+        from rasterio.crs import CRS
+        new_crs = CRS().from_string("+proj=longlat +datum=WGS84 +no_defs")
+        transform, width, height = calculate_default_transform(
+            src.crs, new_crs, src.width, src.height, *src.bounds)
+
+        # Create metadata for the new file
+        kwargs = src.meta.copy()
+        kwargs.update({
+            'crs': new_crs,
+            'transform': transform,
+            'width': width,
+            'height': height
+        })
+
+        # Open the output TIFF file
+        with rasterio.open(output_tif, 'w', **kwargs) as dst:
+            # Reproject and write each band of the image
+            for i in range(1, src.count + 1):
+                reproject(
+                    source=rasterio.band(src, i),
+                    destination=rasterio.band(dst, i),
+                    src_transform=src.transform,
+                    src_crs=src.crs,
+                    dst_transform=transform,
+                    dst_crs=new_crs,
+                    resampling=Resampling.nearest
+                )
