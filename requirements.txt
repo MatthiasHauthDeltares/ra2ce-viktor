@@ -1,7 +1,7 @@
-viktor==14.15.1
-./local-wheels/ra2ce-0.9.2-py3-none-any.whl
-#./local-wheels/GDAL-3.8.2-cp310-cp310-win_amd64.whl; platform_system == "Windows"
-#./local-wheels/ra2ce-0.7.0_no_cache.zip
+viktor==14.19.0
+fiona
+./local-wheels/GDAL-3.9.2-cp311-cp311-win_amd64.whl; platform_system == "Windows"
+ra2ce==1.0.0
 plotly==5.3.1
 mapclassify==2.4.3
 branca
