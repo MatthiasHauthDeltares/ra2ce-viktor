@@ -94,10 +94,16 @@ class Controller(ViktorController):
         static_path = root_dir.joinpath("static")
         output_path = root_dir.joinpath("output")
 
+        assert root_dir.exists()
+        assert static_path.exists()
+        assert output_path.exists()
+
         # 2. Clean up workign directory
         output_directories = [
             root_dir / "static" / "output_graph",
             root_dir / "static" / "network",
+            root_dir / "output" / "damages",
+            root_dir / "static" / "hazard"
         ]
         clean_files(output_directories)
 
@@ -368,6 +374,7 @@ class Controller(ViktorController):
             root_dir / "output" / "single_link_redundancy",
             root_dir / "static" / "output_graph",
             root_dir / "static" / "network",
+            root_dir / "output" / "damages"
         ]
         clean_files(output_directories)
 
@@ -453,6 +460,8 @@ def clean_files(all_directories: list):
     # Iterate through all specified directories
     for directory_path in all_directories:
         # List all files in the directory
+        if not directory_path.exists():
+            directory_path.mkdir(parents=True, exist_ok=True)
         file_list = os.listdir(directory_path)
 
         # Iterate through the files and delete files created after the code start time
