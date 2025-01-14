@@ -255,7 +255,8 @@ class Controller(ViktorController):
             hazard=_hazard,
             network=_network_section,
         )
-        progress_message("Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
+        # progress_message("Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
+        progress_message(f"{output_tif}Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
         handler = Ra2ceHandler.from_config(_network_config_data, None)
         handler.configure()
 
