@@ -305,13 +305,13 @@ class Controller(ViktorController):
         data = BytesIO(raster_file.getvalue_binary())
 
         # Copy hazard file to static/hazard
-        # hazard_file = hazard_path.joinpath("hazard_new_crs.tif")
-        # with open(hazard_file, 'wb') as f:
-        #     f.write(data.getvalue())
+        hazard_file = hazard_path.joinpath("hazard_new_crs.tif")
+        with open(hazard_file, 'wb') as f:
+            f.write(data.getvalue())
 
         _hazard = HazardSection(
-            # hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
-            hazard_map=[],  # [Path(geotiff_files[0])],
+            hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
+            # hazard_map=[],  # [Path(geotiff_files[0])],
             hazard_field_name=['waterdepth'],
             aggregate_wl=AggregateWlEnum.MAX,
             hazard_crs='EPSG:4326'
@@ -340,7 +340,7 @@ class Controller(ViktorController):
                                                    output_path=output_path)
 
         handler = Ra2ceHandler.from_config(_network_config_data, _analysis_config_data)
-        # handler.configure()
+        handler.configure()
         handler.run_analysis()
 
 
@@ -359,7 +359,7 @@ class Controller(ViktorController):
 
             return WebResult.from_path(path_save)
         else:
-            raise UserError("Network not available")
+            raise UserError("Damages analysis has not been run.")
 
 
     @staticmethod
