@@ -94,10 +94,6 @@ class Controller(ViktorController):
         static_path = root_dir.joinpath("static")
         output_path = root_dir.joinpath("output")
 
-        assert root_dir.exists()
-        assert static_path.exists()
-        assert output_path.exists()
-
         # 2. Clean up workign directory
         output_directories = [
             root_dir / "static" / "output_graph",
@@ -209,8 +205,11 @@ class Controller(ViktorController):
 
         root_dir = Path(self.get_work_dir())
         static_path = root_dir.joinpath("static")
+        output_graph_path = root_dir.joinpath("static", "output_graph")
         output_path = root_dir.joinpath("output")
         hazard_path = root_dir.joinpath("static", "hazard")
+
+        clean_files([output_graph_path, hazard_path])
 
         # 3. Network configuration
 
@@ -306,12 +305,13 @@ class Controller(ViktorController):
         data = BytesIO(raster_file.getvalue_binary())
 
         # Copy hazard file to static/hazard
-        hazard_file = hazard_path.joinpath("hazard.tif")
-        with open(hazard_file, 'wb') as f:
-            f.write(data.getvalue())
+        # hazard_file = hazard_path.joinpath("hazard_new_crs.tif")
+        # with open(hazard_file, 'wb') as f:
+        #     f.write(data.getvalue())
 
         _hazard = HazardSection(
-            hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
+            # hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
+            hazard_map=[],  # [Path(geotiff_files[0])],
             hazard_field_name=['waterdepth'],
             aggregate_wl=AggregateWlEnum.MAX,
             hazard_crs='EPSG:4326'
@@ -340,7 +340,7 @@ class Controller(ViktorController):
                                                    output_path=output_path)
 
         handler = Ra2ceHandler.from_config(_network_config_data, _analysis_config_data)
-        handler.configure()
+        # handler.configure()
         handler.run_analysis()
 
 
@@ -360,87 +360,6 @@ class Controller(ViktorController):
             return WebResult.from_path(path_save)
         else:
             raise UserError("Network not available")
-
-
-
-    @staticmethod
-    def run_network(road_type: list[str], poly_coords: list[list[float]], root_dir: str):
-        """
-
-        """
-
-        root_dir = Path(root_dir)
-        output_directories = [
-            root_dir / "output" / "single_link_redundancy",
-            root_dir / "static" / "output_graph",
-            root_dir / "static" / "network",
-            root_dir / "output" / "damages"
-        ]
-        clean_files(output_directories)
-
-        get_network(root_dir, poly_coords)
-        _network_ini_name = "network.ini"  # set the name for the network.ini settings file
-        _analyses_ini_name = "analyses.ini"  # set the name for the analysis.ini
-        network_ini = root_dir / _network_ini_name  # set path to network.ini
-        analyses_ini = root_dir / _analyses_ini_name  # set path to analysis.ini
-
-        # modify network.ini
-        # modify_network_ini(network_ini, road_type)
-        osmnx.utils.config(cache_folder=Path(__file__).parent / "osmnx_cache")
-
-        try:
-            handler = Ra2ceHandler(network=network_ini, analysis=analyses_ini)
-            progress_message(message=f'Running RA2CE: initialising network')
-
-            handler.configure()
-            progress_message(message=f'Running RA2CE: running analysis')
-            handler.run_analysis()
-        except Exception as e:
-            raise UserError(f"Error running RA2CE: {e}")
-
-        return {}
-
-    @WebView("Criticality analysis results", duration_guess=4)
-    def single_link_redundancy_map(self, params: Munch, **kwargs):
-        """
-        Callback to run a single link redundancy analysis and display the results on a map.
-        """
-
-        # 1. Get the root working directory for SLR
-        root_dir = self.get_working_dir('single_link_redundancy')
-
-        # 2. Get the selected road types and polygon coordinates
-        poly = params.page_criticality_analysis.tab.network.selection_polygon
-        poly_coord = []
-        for p in poly.points:
-            poly_coord.append([p.lon, p.lat])
-
-        # 3. Run the network analysis if input have changed (memoized)
-        self.run_network(params.page_criticality_analysis.tab.network.roadtype_select, poly_coord, str(root_dir))
-
-        # 4. Post-process the results and display on the map
-        analysis_output_folder = root_dir / "output" / "single_link_redundancy"  # specify path to output folder
-        redundancy_gdf = gpd.read_file(analysis_output_folder / "beira_redundancy.gpkg")
-
-        if params.page_criticality_analysis.tab.single_link_redun.result_type == 'link_redundancy':
-            redundancy_gdf['redundancy'] = redundancy_gdf['detour'].astype(str)
-
-            res_map = redundancy_gdf.explore(column='redundancy', tiles="CartoDB positron",
-                                             cmap=['red', 'green'])
-        elif params.page_criticality_analysis.tab.single_link_redun.result_type == 'alt_dist':
-            alt_dist_gpd = redundancy_gdf[redundancy_gdf['detour'] == 1]
-            res_map = alt_dist_gpd.explore(column='alt_dist', tiles="CartoDB positron", cmap='winter_r')
-
-        elif params.page_criticality_analysis.tab.single_link_redun.result_type == 'diff_dist':
-            alt_dist_gpd = redundancy_gdf[redundancy_gdf['detour'] == 1]
-            res_map = alt_dist_gpd.explore(column='diff_dist', tiles="CartoDB positron", cmap='winter_r')
-
-        else:
-            raise UserError("Invalid result type")
-        path_save = Path(__file__).parent / "working_directory/single_link_redun" / "map_result.html"
-        res_map.save(path_save)
-
-        return WebResult.from_path(path_save)
 
 
     @staticmethod
@@ -501,12 +420,7 @@ def modify_crs(input_tif, output_tif, new_crs):
     # Open the input TIFF file
     with rasterio.open(input_tif) as src:
         # Get the current CRS, transform, width, and height of the source image
-        print(src.crs, new_crs, src.width, src.height, *src.bounds)
-        from rasterio.crs import CRS
-        import os
 
-        # Check PROJ_LIB environment variable
-        print(f"PROJ_LIB: {os.getenv('PROJ_LIB')}")
         from rasterio.crs import CRS
         new_crs = CRS().from_string("+proj=longlat +datum=WGS84 +no_defs")
         transform, width, height = calculate_default_transform(
