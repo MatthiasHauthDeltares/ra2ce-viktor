@@ -256,7 +256,7 @@ class Controller(ViktorController):
             network=_network_section,
         )
         # progress_message("Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
-        progress_message(f"{output_tif}Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
+        progress_message(f"{hazard_file}Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
         handler = Ra2ceHandler.from_config(_network_config_data, None)
         handler.configure()
 
@@ -303,12 +303,12 @@ class Controller(ViktorController):
         )
 
         raster_file = params.hazard_mapping.section.hazard_select.file
-        data = BytesIO(raster_file.getvalue_binary())
+        # data = BytesIO(raster_file.getvalue_binary())
 
         # Copy hazard file to static/hazard
         hazard_file = hazard_path.joinpath("hazard_new_crs.tif")
-        with open(hazard_file, 'wb') as f:
-            f.write(data.getvalue())
+        # with open(hazard_file, 'wb') as f:
+        #     f.write(data.getvalue())
 
         _hazard = HazardSection(
             hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
