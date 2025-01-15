@@ -295,8 +295,6 @@ class Controller(ViktorController):
 
         )
 
-        raster_file = params.hazard_mapping.section.hazard_select.file
-        # data = BytesIO(raster_file.getvalue_binary())
 
         # Copy hazard file to static/hazard
         hazard_file = hazard_path.joinpath("hazard_new_crs.tif")
@@ -329,13 +327,15 @@ class Controller(ViktorController):
             save_gpkg=True,
             save_csv=True,
         )]
+        try:
+            _analysis_config_data = AnalysisConfigData(analyses=_section_damage, root_path=root_dir,
+                                                       output_path=output_path)
 
-        _analysis_config_data = AnalysisConfigData(analyses=_section_damage, root_path=root_dir,
-                                                   output_path=output_path)
-
-        handler = Ra2ceHandler.from_config(_network_config_data, _analysis_config_data)
-        handler.configure()
-        handler.run_analysis()
+            handler = Ra2ceHandler.from_config(_network_config_data, _analysis_config_data)
+            # handler.configure()
+            handler.run_analysis()
+        except:
+            raise UserError("failed with no configure")
 
 
 
