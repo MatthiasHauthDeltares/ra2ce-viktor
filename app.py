@@ -1,5 +1,4 @@
 import configparser
-import os
 from io import BytesIO
 from pathlib import Path
 
@@ -20,16 +19,13 @@ from ra2ce.ra2ce_handler import Ra2ceHandler
 from shapely import Polygon
 from shapely.geometry import shape
 from viktor import ViktorController, UserError, progress_message, GeoPolygon, GeoPolyline, GeoPoint, Color
-from viktor.core import NamedTemporaryFile
 from viktor.result import SetParamsResult
-from viktor.utils import memoize
 from viktor.views import WebResult, WebView, MapResult, MapLegend, MapPolygon, MapView, MapPolyline
 import geopandas as gpd
-import osmnx
 
 from constants import color_osm_dict, map_legend_osm
 from parametrization_new import Parametrization
-from rasterio.warp import calculate_default_transform, reproject, Resampling
+from rasterio.warp import calculate_default_transform, reproject
 from rasterio.enums import Resampling
 
 
@@ -203,17 +199,15 @@ class Controller(ViktorController):
         if params.hazard_mapping.section.hazard_select is None:
             raise UserError("Please upload a hazard file")
 
-        root_dir = Path(self.get_work_dir())
+        root_dir = self.get_work_dir()
         static_path = root_dir.joinpath("static")
         output_graph_path = root_dir.joinpath("static", "output_graph")
         output_path = root_dir.joinpath("output")
         hazard_path = root_dir.joinpath("static", "hazard")
 
-        clean_files([output_graph_path, hazard_path])
+        clean_hazard_overlay(output_graph_path, hazard_path)
 
         # 3. Network configuration
-
-
         path_to_polygon_geojson = root_dir / "static/network/map.geojson"
 
         _network_section = NetworkSection(
@@ -261,7 +255,6 @@ class Controller(ViktorController):
         handler.configure()
 
 
-        # return MapResult(features)
 
     @WebView('Overlaid Network', duration_guess=5)
     def overlaid_network(self, params: Munch, **kwargs):
@@ -382,12 +375,19 @@ def clean_files(all_directories: list):
         # List all files in the directory
         if not directory_path.exists():
             directory_path.mkdir(parents=True, exist_ok=True)
-        file_list = os.listdir(directory_path)
 
         # Iterate through the files and delete files created after the code start time
-        for file_name in file_list:
-            file_path = os.path.join(directory_path, file_name)
-            os.remove(file_path)
+        for file in directory_path.iterdir():
+            file.unlink()
+
+def clean_hazard_overlay(output_graph_path: Path, hazard_path: Path):
+    for file in output_graph_path.iterdir():
+        filename = file.name
+        if 'hazard' in filename:
+            file.unlink()
+
+    for file in hazard_path.iterdir():
+        file.unlink()
 
 
 def modify_network_ini(network_init_path: Path, road_types: list[str]):
