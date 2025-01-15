@@ -350,11 +350,15 @@ def clean_files(all_directories: list):
             file.unlink()
 
 def clean_hazard_overlay(output_graph_path: Path, hazard_path: Path):
+    if not output_graph_path.exists():
+        output_graph_path.mkdir(parents=True, exist_ok=True)
     for file in output_graph_path.iterdir():
         filename = file.name
         if 'hazard' in filename:
             file.unlink()
 
+    if not hazard_path.exists():
+        hazard_path.mkdir(parents=True, exist_ok=True)
     for file in hazard_path.iterdir():
         file.unlink()
 
