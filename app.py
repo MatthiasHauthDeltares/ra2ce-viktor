@@ -5,10 +5,8 @@ from pathlib import Path
 import geopandas
 import rasterio
 from munch import Munch
-from ra2ce.analysis.analysis_config_data.analysis_config_data import AnalysisSectionDamages, AnalysisConfigData
-from ra2ce.analysis.analysis_config_data.enums.analysis_damages_enum import AnalysisDamagesEnum
 from ra2ce.analysis.analysis_config_data.enums.damage_curve_enum import DamageCurveEnum
-from ra2ce.analysis.analysis_config_data.enums.event_type_enum import EventTypeEnum
+from ra2ce.analysis.damages.damage_calculation import DamageNetworkEvents
 from ra2ce.network import RoadTypeEnum
 from ra2ce.network.network_config_data.enums.aggregate_wl_enum import AggregateWlEnum
 from ra2ce.network.network_config_data.enums.source_enum import SourceEnum
@@ -180,12 +178,10 @@ class Controller(ViktorController):
             [[point.lon, point.lat] for point in params.network_configuration.tab.selection_polygon.points])
         # add polygon to map:
         folium.GeoJson(polygon, name='polygon').add_to(m)
-        m.save("map.html")
 
-        path_save = Path(__file__).parent.joinpath("hazard.html")
-        m.save(path_save)
+        html_string = m.get_root().render()
 
-        return WebResult.from_path(path_save)
+        return WebResult(html=html_string)
         # Display the map
 
 
@@ -250,7 +246,7 @@ class Controller(ViktorController):
             network=_network_section,
         )
         # progress_message("Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
-        progress_message(f"{hazard_file}Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
+        progress_message(f"Overlaying the hazard map on the network ... Depending on the size of the hazard, this can take up to a few minutes.")
         handler = Ra2ceHandler.from_config(_network_config_data, None)
         handler.configure()
 
@@ -264,96 +260,69 @@ class Controller(ViktorController):
         if network_gpkg.exists():
             gdf = gpd.read_file(network_gpkg)
             res_map = gdf.explore(column="EV1_ma", tiles="CartoDB positron", cmap="viridis_r", scheme='EqualInterval')
-            path_save = Path(__file__).parent.joinpath("network_map_results.html")
-            res_map.save(path_save)
+            html_string = res_map.get_root().render()
 
-            return WebResult.from_path(path_save)
+            return WebResult(html=html_string)
         else:
             raise UserError("Network not available")
 
 
     def run_analysis(self, params: Munch, **kwargs):
-        root_dir = Path(self.get_work_dir())
-        output_directories = [
-            root_dir / "output" / "damages"
-        ]
-        clean_files(output_directories)
-
-        root_dir = Path(self.get_work_dir())
-        static_path = root_dir.joinpath("static")
-        output_path = root_dir.joinpath("output")
-        hazard_path = root_dir.joinpath("static", "hazard")
-
-        path_to_polygon_geojson = root_dir / "static/network/map.geojson"
-
-        _network_section = NetworkSection(
-            directed=False,
-            source=SourceEnum.OSM_DOWNLOAD,
-            road_types=[RoadTypeEnum(road_type) for road_type in params.network_configuration.tab.roadtype_select],
-            polygon=path_to_polygon_geojson,
-            save_gpkg=True
-
-        )
-
-
-        # Copy hazard file to static/hazard
-        hazard_file = hazard_path.joinpath("hazard_new_crs.tif")
-        # with open(hazard_file, 'wb') as f:
-        #     f.write(data.getvalue())
-
-        _hazard = HazardSection(
-            hazard_map=[hazard_file],  # [Path(geotiff_files[0])],
-            # hazard_map=[],  # [Path(geotiff_files[0])],
-            hazard_field_name=['waterdepth'],
-            aggregate_wl=AggregateWlEnum.MAX,
-            hazard_crs='EPSG:4326'
-        )
-
-        # pass the specified sections as arguments for configuration
-
-        _network_config_data = NetworkConfigData(
-            root_path=root_dir,
-            static_path=static_path,
-            output_path=output_path,
-            hazard=_hazard,
-            network=_network_section,
-        )
-
-        _section_damage = [AnalysisSectionDamages(
-            name='Manual_damageXX',
-            analysis=AnalysisDamagesEnum.DAMAGES,
-            event_type=EventTypeEnum.EVENT,
-            damage_curve=DamageCurveEnum.HZ,
-            save_gpkg=True,
-            save_csv=True,
-        )]
-        try:
-            _analysis_config_data = AnalysisConfigData(analyses=_section_damage, root_path=root_dir,
-                                                       output_path=output_path)
-
-            handler = Ra2ceHandler.from_config(_network_config_data, _analysis_config_data)
-            # handler.configure()
-            handler.run_analysis()
-        except:
-            raise UserError("failed with no configure")
-
-
+        pass
 
 
     @WebView('Result Analysis', duration_guess=5)
     def result_analysis(self, params: Munch, **kwargs):
+        hazard_prefix = "F"
+
+        def _rename_road_gdf_to_conventions(road_gdf_columns: list[str]) -> list[str]:
+            """
+            Rename the columns in the road_gdf to the conventions of the ra2ce documentation
+
+            'eg' RP100_fr -> F_RP100_me
+                        -> F_EV1_mi
+
+            """
+            cs = road_gdf_columns
+            ### Handle return period columns
+            new_cols = []
+            for c in cs:
+                if c.startswith("RP") or c.startswith("EV"):
+                    new_cols.append(f"{hazard_prefix}_" + c)
+                else:
+                    new_cols.append(c)
+
+            ### Todo add handling of events if this gives a problem
+            return new_cols
+
+
         root_dir = Path(self.get_work_dir())
+        static_path = root_dir.joinpath("static")
 
-        network_gpkg = root_dir.joinpath("output", 'damages', 'Manual_damageXX_link_based.gpkg')
-        if network_gpkg.exists():
-            gdf = gpd.read_file(network_gpkg)
-            res_map = gdf.explore(column="dam_EV1_HZ", tiles="CartoDB positron", cmap="viridis_r", scheme='EqualInterval')
-            path_save = Path(__file__).parent.joinpath("damage_map_results.html")
-            res_map.save(path_save)
+        if static_path.joinpath("output_graph", "base_network_hazard.gpkg").exists():
 
-            return WebResult.from_path(path_save)
+            road_gdf = gpd.read_file(static_path.joinpath("output_graph", "base_network_hazard.gpkg"))
+            road_gdf.columns = _rename_road_gdf_to_conventions(road_gdf.columns)
+
+            val_cols = [
+                col for col in road_gdf.columns if f"{hazard_prefix}" in col.split("_")
+            ]
+            _representative_damage_percentage = 100
+            event_gdf = DamageNetworkEvents(
+                road_gdf, val_cols, _representative_damage_percentage
+            )
+            event_gdf.main(damage_function=DamageCurveEnum.HZ)
+
+            res_map = event_gdf.gdf.explore(column="F_EV1_ma", tiles="CartoDB positron", cmap="viridis_r", scheme='EqualInterval')
+            # path_save = Path(__file__).parent.joinpath("damage_map_results.html")
+            # res_map.save(path_save)
+            html_string = res_map.get_root().render()
+
+            # return WebResult.from_path(path_save)
+            return WebResult(html=html_string)
+
         else:
-            raise UserError("Damages analysis has not been run.")
+            raise UserError("Network has not been overlaid with hazard data")
 
 
     @staticmethod
