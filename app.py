@@ -85,8 +85,14 @@ class Controller(ViktorController):
             raise UserError("Please select road types")
 
         root_dir = Path(self.get_work_dir())
+        if not root_dir.exists():
+            root_dir.mkdir(parents=True, exist_ok=True)
         static_path = root_dir.joinpath("static")
+        if not static_path.exists():
+            static_path.mkdir(parents=True, exist_ok=True)
         output_path = root_dir.joinpath("output")
+        if not output_path.exists():
+            output_path.mkdir(parents=True, exist_ok=True)
 
         # 2. Clean up workign directory
         output_directories = [
