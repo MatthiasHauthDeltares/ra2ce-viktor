@@ -197,9 +197,16 @@ class Controller(ViktorController):
 
         root_dir = self.get_work_dir()
         static_path = root_dir.joinpath("static")
+        if not static_path.exists():
+            static_path.mkdir(parents=True, exist_ok=True)
         output_graph_path = root_dir.joinpath("static", "output_graph")
+        if not output_graph_path.exists():
+            output_graph_path.mkdir(parents=True, exist_ok=True)
         output_path = root_dir.joinpath("output")
+
         hazard_path = root_dir.joinpath("static", "hazard")
+        if not hazard_path.exists():
+            hazard_path.mkdir(parents=True, exist_ok=True)
 
         clean_hazard_overlay(output_graph_path, hazard_path)
 
@@ -292,7 +299,6 @@ class Controller(ViktorController):
                 else:
                     new_cols.append(c)
 
-            ### Todo add handling of events if this gives a problem
             return new_cols
 
 
@@ -313,7 +319,7 @@ class Controller(ViktorController):
             )
             event_gdf.main(damage_function=DamageCurveEnum.HZ)
 
-            res_map = event_gdf.gdf.explore(column="F_EV1_ma", tiles="CartoDB positron", cmap="viridis_r", scheme='EqualInterval')
+            res_map = event_gdf.gdf.explore(column="dam_EV1_HZ", tiles="CartoDB positron", cmap="viridis_r", scheme='EqualInterval')
             # path_save = Path(__file__).parent.joinpath("damage_map_results.html")
             # res_map.save(path_save)
             html_string = res_map.get_root().render()
